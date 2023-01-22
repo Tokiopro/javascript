@@ -55,9 +55,9 @@ sayHI = (name) => {
 //丸括弧をつけてあげる、優先してくれる演算子
 // 何かの式を返していると認識してくれる。
 
-sayHI = (name) => （{
-    test: 'name',
-});
+// sayHI = (name) => （{
+//     test: 'name',
+// });
 
 //デフォルトパラメーターについて
 
@@ -80,3 +80,58 @@ sayHI = (name, message = 'I like cake') => `Hi $(name)! $(message)`;
 console.log(sayHI('Tokio'));
 //引数を入れすぎた場合は、全て無視される。
 //引数が一つだけでも、デフォルトパラメーターがある場合は()を省略できない。
+
+// レストパラメーターで無限の引数を使う場合
+// 引数を無限個取りたい。
+// 配列を引数に渡す。配列、使いたくない場合は？
+let sum = (nums) => {
+    let total = 0;
+    for (num of nums) {
+        total += num;
+    }
+    return total;
+};
+console.log(sum([1, 3, 5]))
+
+// レストパラメーターを使う！(レスト＝残りの、残余引数ともいう)
+//　パラメーターの手前にドットを3つ付ける。
+
+let sums = (...nums) => {// ←numsは配列になっている。
+    let total = 0;
+    for (num of nums) {
+        total += num;
+    }
+    return total;
+};
+console.log(sum(1, 3, 5));//引数が配列にする必要がない。
+
+//argumentsオブジェクトを使ってやる方法もある、ES6以前の方法
+//配列のようなオブジェクトになっている。
+// アロー関数では使えない。古い書き方なので、基本的に使わないようにする。
+
+// 引数に渡せるコールバック関数について
+// 引数に関数を入れることができるというもの。
+let subtract = (a, b, callback) => {
+    let result = a - b;
+    callback(result);//7が↓のresultという引数に入る。
+};
+subtract(10, 3, (result) => {
+    console.log(result);// ←10, 3という引数がa, bに入り、callbackのresultに入っている7がresultに入る。
+});
+subtract(10, 4, (result) => {
+    alert(result);
+});
+
+// 無名関数と名前付き関数式に違い
+// デバッグ時に名前付き関数式がわかりやすい。
+// chromeは関数のnameプロパティを見ている。
+let sayHI = function () {
+    return 'hi';
+};
+console.dir(saiHi);
+
+//javascriptでは、変数に無名関数やアロー関数を入れた場合、プロパティ名がNAMEプロパティに推測される。
+//同じようにオブジェクトのプロパティとして使用される場合。
+
+//パラメーターというものは後から代入できる、変数という扱いになる。
+//typeof演算子でfunctionかオブジェクトか判定できる。
