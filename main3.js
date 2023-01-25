@@ -49,7 +49,7 @@ let outerFunc2 = () => {
     }
 }
 let innerFunc = outerFunc2()//←この関数呼び出しで一度レキシカル環境が作られる。
-innnerFunc()
+innerFunc()
 //②returnでinnnerFuncに関数オブジェクトを代入する。
 //③innerFunc呼び出しで新しいレキシカル環境が作られる。
 //アドレスはmangoを指し示す。
@@ -59,3 +59,14 @@ innnerFunc()
 //その関数オブジェクトが作られた場所のレキシカル環境を指し示す。
 //innerFuncはreturn(outerFunc)で作られた関数だから。
 //関数は持ち運びできてしまうので、複雑なデータの動きをする。ブロック文はチェーン、単純。
+
+//レキシカル環境① global object,outerFunc,innerFunc
+//レキシカル環境② outerEnv, mango
+//レキシカル環境③ outerEnv,orange
+//レキシカル環境同士の流れ、③→①⇨②→①
+
+//クロージャについて
+//外部の変数の情報を持った関数のこと
+//javascript内で言えば、レキシカル環境を指し示す関数オブジェクトのこと
+
+//レキシカル環境を理解する上で3つの注意点
