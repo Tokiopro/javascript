@@ -103,7 +103,7 @@ let sums = (...nums) => {// ←numsは配列になっている。
     }
     return total;
 };
-console.log(sum(1, 3, 5));//引数が配列にする必要がない。
+console.log(sum(1, 3, 5));//引数を配列にする必要がない。
 
 //argumentsオブジェクトを使ってやる方法もある、ES6以前の方法
 //配列のようなオブジェクトになっている。
@@ -113,7 +113,7 @@ console.log(sum(1, 3, 5));//引数が配列にする必要がない。
 // 引数に関数を入れることができるというもの。
 let subtract = (a, b, callback) => {
     let result = a - b;
-    callback(result);//7が↓のresultという引数に入る。
+    callback(result);//resultを引数にしている関数
 };
 subtract(10, 3, (result) => {
     console.log(result);// ←10, 3という引数がa, bに入り、callbackのresultに入っている7がresultに入る。
