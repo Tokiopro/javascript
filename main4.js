@@ -239,15 +239,15 @@ this.alert = 'hello';//これはできる、グローバルオブジェクトな
 //         this.color = color;//car.colorをthisで定義できる。
 //     }
 // };
-car.sayThis();//carのオブジェクトが返ってきている。
+// car.sayThis();//carのオブジェクトが返ってきている。
 //メソッド(オブジェクトの中の関数)で呼び出した時のthisはそのオブジェクトになる。
 // le - (car.sayThis())
 // - outerEnv: global
 // - this: car
 
 //thisのメリット
-const car2 = { ...car };
-car2.changeColor('white');//
+// const car2 = { ...car };
+// car2.changeColor('white');//
 // const car = {
 //     color: 'red',
 //     sayThis,
@@ -260,10 +260,10 @@ car2.changeColor('white');//
 
 //thisを使えば色々なオブジェクトに対応できる。柔軟に対応できる。
 
-const tempObj = {
-    car,
-};
-tempObj.car.sayThis();//この場合はcarを指している。どれだけオブジェクトがネストしていても
+// const tempObj = {
+//     car,
+// };
+// tempObj.car.sayThis();//この場合はcarを指している。どれだけオブジェクトがネストしていても
 //メソッドのthisは一つ左のオブジェクトを指している。
 
 //アロー関数のthis
@@ -272,7 +272,7 @@ tempObj.car.sayThis();//この場合はcarを指している。どれだけオ�
 let sayThisArrow = () => {
     console.log(this);
 };
-car.sayThisArrow();//global objectを返している。outerEnvを見ている。
+// car.sayThisArrow();//global objectを返している。outerEnvを見ている。
 //sayThis()でもglobal objectを返している。
 
 //なぜこういう仕様にしているのか？
@@ -344,6 +344,70 @@ sayThis.apply({hello: 'hello'}, [1, 2]);
 //アロー関数の時は使えない。thisを持っていないから。
 //無名関数の時に使う。
 
+//bindを使ってthisや引数を固定した関数を作る方法
+sayThis = sayThis.bind({ hello: 'hello' });
+//bindはcallとapplyと似ていて、thisが何を示しているか引数て定義することができる。
+//では、callとapplyとは何が違うのか？
+//bindは関数を呼び出すのではなく、新しい関数を作り出すメソッド
+//なので、bindは変数に代入する必要がある。indの返り値は関数オブジェクト
+sayThis();
+//後ろにcallやapplyをつけるとどうなるのか？
+sayThis.call({ hi: 'hi' }, 1, 2);
+//bindが優先され、{hello: 'hello'} 1 2となる
+//bindにするとthisが固定される。({ hello: 'hello' })に固定。
+//引数も固定できる。
+sayThis2 = sayThis.bind({ hello: 'hello' }, 1);
+//引数を1に固めた場合
+sayThis2();
+//{hello: 'hello'} 1 1になる
+//強制的に第二引数に代入される。何も引数を指定しなかった場合、第二引数はundefinedになる。
+//sayThisがアロー関数の場合、アロー関数がかつ。
+//thisを持たないのでグローバルオブジェクトが返ってくる。
+//ただし、パラメーター（引数）は固定できる。
 
+//メソッドの省略記法について
+//オブジェクトのメソッドはアロー関数とfunctionどちらを使う？
+//基本的にはfunction→アロー関数はthisの制限があるから。
+
+//全てのメソッドをfunctionは冗長ではないか？
+//javascriptいは省略記法がある。
+//functionとコロンを消すことができる。
+
+// const car = {
+//     color: 'red',
+//     sayThis,
+//     changeColor(color) {←これでいい
+//         logging(() => {
+//             return this.color;// 一つ外側のthisを採用するようになる。
+//         });
+//         this.color = color;
+//     }
+// };
+
+//getterとsetterを使って関数をプロパティのように扱う方法
+//プロパティは実は2種類存在する。
+//今までやってきたプロパティはデータプロパティ。
+//getterとsetterはアクセスプロパティという。
+
+const pastaCalculator = {
+    servingSize: 60,
+    member: 4,
+    // total: pastaCaluculator.servingSize * pastaCaluculator←自分のオブジェクトのプロパティにアクセスできないのでエラーになる。
+    //this.servingSizeはthisがグローバルオブジェクトになっているので、
+    //エラーは出ないがundefined*undefinedになっている。
+    //ではもし自分のプロパティにアクセスしたい場合はどおうすればよいか？
+    //必ず関数にする必要がある。メソッドにする。
+    // total() {
+    //     return this.servingSize * this.member;
+    // },//console.log(pastaCalculator.total());で呼び出せる。
+    //ただ、プロパティにアクセスしたいだけなのに関数を実行しているように見える。
+    //getterで解決する。
+    get total() {//←getをつけると()がいらなくなる。
+        return this.servingSize * this.member;
+    },
+};
+//getterというのは関数をプロパティのように扱えるようにするための機能。
+//ちなみにget total: function()やアロー関数にgetをつけても機能しない。
+//省略記法にしか使えないというより、get func()　これが一つの書き方になっている。
 
 
