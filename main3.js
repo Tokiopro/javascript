@@ -43,6 +43,13 @@ let outerFunc = (a) => {
     }
     innerFunc()
 }
+//上記の場合はどうなるか？
+
+//le grobal object
+// apple: 'apple'
+// banana: 'banana'
+// outerFunc: {}関数オブジェクトが作られる
+
 //答えは関数を呼び出したとき=ブロック文と違うところ。。
 outerFunc('hello')
 
@@ -52,8 +59,8 @@ let outerFunc2 = () => {
         let orange = 'orange';
         console.log(?);//←関数の中にreturnを定義すると？
     }
-}
-let innerFunc = outerFunc2()//←この関数呼び出しで一度レキシカル環境が作られる。
+};
+let innerFunc = outerFunc2()//←①この関数呼び出しで一度レキシカル環境が作られる。
 innerFunc()
 //②returnでinnnerFuncに関数オブジェクトを代入する。
 //③innerFunc呼び出しで新しいレキシカル環境が作られる。
@@ -63,7 +70,11 @@ innerFunc()
 //これは、何を示すか？
 //その関数オブジェクトが作られた場所のレキシカル環境を指し示す。
 //innerFuncはreturn(outerFunc)で作られた関数だから。
-//関数は持ち運びできてしまうので、複雑なデータの動きをする。ブロック文はチェーン、単純。
+//関数は持ち運びできてしまうので、複雑なデータの動きをする。ブロック文はチェーンのような動き。
+//ブロック文はすぐ実行されるから。
+
+//outerEnvとは？　関数を呼び出したときに作られるレキシカル環境の中のouterEnvが指し示すのは
+//呼び出した関数オブジェクト持っているenvironmentプロパティが指し示すレキシカル環境になる。
 
 //レキシカル環境① global object,outerFunc,innerFunc
 //レキシカル環境② outerEnv, mango
@@ -76,7 +87,7 @@ innerFunc()
 
 //レキシカル環境を理解する上で3つの注意点
 //①レキシカル環境というものはアドレスの考え方で定義されている。
-
+l
 let fluit = 'apple';
 let sayFluit = () => {
     console.log(fluit);
